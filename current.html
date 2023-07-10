@@ -34,10 +34,8 @@
         </div>
     </nav>
     <div class="container border rounded shadow-sm" style="margin-top: 150px;background: #f9e1b7;padding: 5px;">
-        <h1>MQTT Credential Extraction for Ecoflow (API)</h1>
-        <p>Ecoflow Powerstations might be controlled via the Ecoflow APP. However, using the APP it is not possible to use the data in Smart-Home appliances or Energy Management. This page uses the login credentials to retrieve login credentials for MQTT access.</p>
-        <h2>Security Note</h2>
-        <p>The Javascript used on this page communicates only with the servers of Ecoflow. No data is stored or transfered to another party (like us). Please check the source of the page and the script to validate!</p>
+        <h1>Ecoflow to Current Import</h1>
+        <p>Ecoflow Powerstations might be controlled via the Ecoflow APP. This page allows to add data from the API to your <a href="https://github.com/energychain/corrently-current" target="_blank">Correnty Current</a> display.</p>
         <h2>Disclaimer</h2>
         <p>This page and its script is provided by <a href="https://stromdao.de/" target="_blank">STROMDAO GmbH</a>.&nbsp;The company is not affiliated with Ecoflow or in any other relationship. This <a href="https://www.npmjs.com/package/ecoflow_mqtt_credentials">page/script</a> is provided&nbsp;"as-is"&nbsp;without warranty or support. It is for the educational use of developers and enthusiasts.</p>
     </div>
@@ -46,15 +44,20 @@
             <h1>Login Credentials from Ecoflow APP</h1>
             <div class="input-group"><span class="input-group-text w-25">Email</span><input class="form-control" type="email" id="email" required="" name="email"></div>
             <div class="input-group" style="margin-top: 15px;"><span class="input-group-text w-25">Password</span><input class="form-control" type="password" id="password" name="password" required=""></div>
-            <div class="input-group" style="margin-top: 15px;"><span class="input-group-text w-25">Serial Number of Device&nbsp;</span><input class="form-control" type="text" id="serial" placeholder="(optional, required for sample MQTT topics)" name="serial"></div>
-            <div class="text-center" style="margin-top: 15px;"><button class="btn btn-warning" type="submit">Retrieve MQTT Credentials</button></div>
+            <div class="input-group" style="margin-top: 15px;"><span class="input-group-text w-25">Serial Number of Device&nbsp;</span><input class="form-control" type="text" id="serial" placeholder="(Something like R611ZEB5XF12345)" name="serial" required=""></div>
+            <div class="text-center" style="margin-top: 15px;"><button class="btn btn-secondary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-share">
+                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path>
+                    </svg>&nbsp;Retrieve and Import to Current</button></div>
         </form>
+        <div id="gtpShareId" style="display: none;text-align: center;"><img id="qrImage" style="text-align: center;">
+            <div class="input-group"><span class="input-group-text">Share Code</span><input class="form-control" type="text" id="shareId"></div>
+        </div>
         <div id="result"></div>
         <div class="alert alert-danger alert-dismissible" role="alert" id="alertMsg" style="margin-top: 25px;display:none"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="alert"></button><span id="errorText"><strong>Error&nbsp;</strong>text.</span></div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/app.js"></script>
+    <script src="assets/js/current.js"></script>
 </body>
 
 </html>
