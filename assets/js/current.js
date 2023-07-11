@@ -110,7 +110,7 @@ $(document).ready(function() {
                             $.ajax({
                                 type: "POST",
                                 url: "https://api.corrently.io/v2.0/tydids/bucket/intercom",
-                                data: "&value=" + encodeURIComponent(settings),
+                                data: "&value=" + encodeURIComponent(JSON.stringify(settings)),
                                 success: function(data) {
                                     $('#gtpShareId').show();
                                     $('#shareId').val(data.id);
