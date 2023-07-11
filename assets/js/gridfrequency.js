@@ -136,10 +136,4 @@ $(document).ready(function() {
         })
         e.preventDefault();
    });
-
-   $('#backReturn').on('click',function(e) {
-    if(getUrlParameter("returnUrl")) {
-        location.href=getUrlParameter("returnUrl");
-    }
-   });
 });
