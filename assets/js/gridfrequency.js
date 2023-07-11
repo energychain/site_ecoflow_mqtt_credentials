@@ -32,108 +32,45 @@ $(document).ready(function() {
     }
 
    $('#appCredentials').submit(function(e) {
-        $.ajax({
-            url:"https://api.ecoflow.com/auth/login",
-            method: "POST",
-            data: JSON.stringify({
-                "os": "linux",
-                "scene": "IOT_APP",
-                "appVersion": "1.0.0",
-                "osVersion": "5.15.90.1-kali-fake",
-                "password": btoa($('#password').val()),
-                "oauth": {
-                "bundleId": "com.ef.EcoFlow"
-                },
-                "email": $('#email').val(),
-                "userType": "ECOFLOW"
-            }),
-            headers: { 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json' 
-            },
-            'dataType': 'json',
-            success: function(tokenResponse) {
-                if(tokenResponse.message !== 'Success') {
-                    errorDisplay("Retrieve Token: "+tokenResponse.message);
-                } else {
-                    $.ajax({
-                        url:"https://api.ecoflow.com/iot-auth/app/certification",
-                        method: "GET",
-                        headers: { 
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            "Authorization":"Bearer "+tokenResponse.data.token 
-                        },
-                        success: function(infoResponse) {
-                            const widgetId = _randomString();
-
-                            const connection = {
-                                "connectionName":"Ecoflow MQTT",
-                                "host":infoResponse.data.url,
-                                "port":infoResponse.data.port,
-                                "protocol":"mqtts",
-                                "username":infoResponse.data.certificateAccount,
-                                "password":infoResponse.data.certificatePassword,
-                                "clientId":"ANDROID_"+Math.round(Math.random()*1000000000)+"_"+tokenResponse.data.user.userId,
-                                "protocolId":"MQIsdp",
-                                "protocolVersion":3,
-                                "connectionId":widgetId,
-                                "uiid":widgetId,
-                                "basePath":"/app/device/property/"+$('#serial').val()
-                            }
-                            let settings = {};
-                            settings['connection_'+widgetId] = connection;
-                            settings['topics_'+widgetId] = [
-                                {
-                                    "topic":"/app/device/property/"+$('#serial').val(),
-                                    "renderer":"jsonpath:$.params['pd.soc']",
-                                    "alias":"% Charged",
-                                    "id":_randomString(),
-                                    "colorize":"1"
-                                },
-                                {
-                                    "topic":"/app/device/property/"+$('#serial').val(),
-                                    "renderer":"jsonpath:$.params['pd.wattsOutSum']",
-                                    "alias":"W Out",
-                                    "id":_randomString(),
-                                    "colorize":"1"
-                                },
-                                {
-                                    "topic":"/app/device/property/"+$('#serial').val(),
-                                    "renderer":"jsonpath:$.params['pd.wattsInSum']",
-                                    "alias":"W In",
-                                    "id":_randomString(),
-                                    "colorize":"1"
-                                }
-                            ];
-
-                            $.ajax({
-                                type: "POST",
-                                url: "https://api.corrently.io/v2.0/tydids/bucket/intercom",
-                                data: "&value=" + encodeURIComponent(JSON.stringify(settings)),
-                                success: function(data) {
-                                    $('#gtpShareId').show();
-                                    $('#shareId').val(data.id);
-                    
-                                    $.getJSON("https://api.corrently.io/v2.0/util/qr?data="+data.id,function(d) {
-                                        $('#qrImage').attr('src',d);
-                                    });
-                    
-                                    $('#shareId').attr('disabled','disabled');
-                                    $(e.currentTarget).removeAttr('disabled');
-                                    if(getUrlParameter("returnUrl")) {
-                                        location.href=getUrlParameter("returnUrl") + "?import="+data.id;
-                                    }
-                                }
-                            })
-                        }
-                    });
+            let settings = {};
+            settings['connection_CorrentlyCommons'] = {
+                "connectionName":"Corrently Commons",
+                "host":"mqtt.corrently.cloud",
+                "port":8883,"protocol":"mqtts",
+                "protocolId":"MQIsdp",
+                "protocolVersion":3,
+                "connectionId":"CorrentlyCommons",
+                "uiid":"CorrentlyCommons"
+            };
+            settings['topics_CorrentlyCommons'] = [
+                {
+                    "topic":"corrently/commons/netzfrequenz/EM_freq",
+                    "renderer":"auto",
+                    "alias":"Hz (Location 1)",
+                    "id":"mainsFrequency1",
+                    "colorize":"1"
                 }
-            },
-            fail: function(e) {
-                errorDisplay(e);
-            }
-        })
+            ];
+
+            $.ajax({
+                type: "POST",
+                url: "https://api.corrently.io/v2.0/tydids/bucket/intercom",
+                data: "&value=" + encodeURIComponent(JSON.stringify(settings)),
+                success: function(data) {
+                    $('#gtpShareId').show();
+                    $('#shareId').val(data.id);
+
+                    $.getJSON("https://api.corrently.io/v2.0/util/qr?data="+data.id,function(d) {
+                        $('#qrImage').attr('src',d);
+                    });
+
+                    $('#shareId').attr('disabled','disabled');
+                    $(e.currentTarget).removeAttr('disabled');
+                    if(getUrlParameter("returnUrl")) {
+                        location.href=getUrlParameter("returnUrl") + "?import="+data.id;
+                    }
+                }
+            })
         e.preventDefault();
    });
 });
