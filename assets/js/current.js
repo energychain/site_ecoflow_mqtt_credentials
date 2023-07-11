@@ -83,11 +83,34 @@ $(document).ready(function() {
                             }
                             let settings = {};
                             settings['connection_'+widgetId] = connection;
+                            settings['topics_'+widgetId] = [
+                                {
+                                    "topic":"/app/device/property/"+$('#serial').val(),
+                                    "renderer":"jsonpath:$.params['pd.soc']",
+                                    "alias":"% Charged",
+                                    "id":_randomString(),
+                                    "colorize":"1"
+                                },
+                                {
+                                    "topic":"/app/device/property/"+$('#serial').val(),
+                                    "renderer":"jsonpath:$.params['pd.wattsOutSum']",
+                                    "alias":"W Out",
+                                    "id":_randomString(),
+                                    "colorize":"1"
+                                },
+                                {
+                                    "topic":"/app/device/property/"+$('#serial').val(),
+                                    "renderer":"jsonpath:$.params['pd.wattsInSum']",
+                                    "alias":"W In",
+                                    "id":_randomString(),
+                                    "colorize":"1"
+                                }
+                            ];
 
                             $.ajax({
                                 type: "POST",
                                 url: "https://api.corrently.io/v2.0/tydids/bucket/intercom",
-                                data: "&value=" + encodeURIComponent(JSON.stringify(settings)),
+                                data: "&value=" + encodeURIComponent(settings),
                                 success: function(data) {
                                     $('#gtpShareId').show();
                                     $('#shareId').val(data.id);
