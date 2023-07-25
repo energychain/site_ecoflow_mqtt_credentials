@@ -89,21 +89,24 @@ $(document).ready(function() {
                                     "renderer":"jsonpath:$.params['pd.soc']",
                                     "alias":"% Charged",
                                     "id":_randomString(),
-                                    "colorize":"1"
+                                    "colorize":"1",
+                                    "connectionId":widgetId
                                 },
                                 {
                                     "topic":"/app/device/property/"+$('#serial').val(),
                                     "renderer":"jsonpath:$.params['pd.wattsOutSum']",
                                     "alias":"W Out",
                                     "id":_randomString(),
-                                    "colorize":"1"
+                                    "colorize":"1",
+                                    "connectionId":widgetId
                                 },
                                 {
                                     "topic":"/app/device/property/"+$('#serial').val(),
                                     "renderer":"jsonpath:$.params['pd.wattsInSum']",
                                     "alias":"W In",
                                     "id":_randomString(),
-                                    "colorize":"1"
+                                    "colorize":"1",
+                                    "connectionId":widgetId
                                 }
                             ];
 
