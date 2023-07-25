@@ -82,8 +82,8 @@ $(document).ready(function() {
                                 "basePath":"/app/device/property/"+$('#serial').val()
                             }
                             let settings = {};
-                            settings['connection_'+widgetId] = connection;
-                            settings['topics_'+widgetId] = [
+                            settings['connections'] = [connection];
+                            settings['topics'] = [
                                 {
                                     "topic":"/app/device/property/"+$('#serial').val(),
                                     "renderer":"jsonpath:$.params['pd.soc']",
