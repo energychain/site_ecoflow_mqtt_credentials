@@ -43,7 +43,7 @@ $(document).ready(function() {
                             html += '<tr><td><strong>MQTT Host</strong></td><td>'+infoResponse.data.url+'</td></tr>';
                             html += '<tr><td><strong>MQTT Port</strong></td><td>'+infoResponse.data.port+'</td></tr>';
                             html += '<tr><td><strong>MQTT User</strong></td><td>'+infoResponse.data.certificateAccount+'</td></tr>';
-                            html += '<tr><td><strong>MQTT User</strong></td><td>'+infoResponse.data.certificatePassword+'</td></tr>';
+                            html += '<tr><td><strong>MQTT Password</strong></td><td>'+infoResponse.data.certificatePassword+'</td></tr>';
                             html += '<tr><td><strong>MQTT Client ID (sample)</strong></td><td>'+"ANDROID_"+Math.round(Math.random()*1000000000)+"_"+tokenResponse.data.user.userId+'</td></tr>';
                             html += '</table>';
                             let serial = $('#serial').val();
